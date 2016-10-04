@@ -5,33 +5,29 @@
 #include <stdio.h>
 #include "utils.h"
 
-double *BuildVector(int Nrows){
-
+double *Vector_create(int Nrows){
     double *A = (double*) calloc(Nrows, sizeof(double));
-    
     return A;
 }
 
-double *DestroyVector(double *v){
+double *Vector_free(double *v){
     free(v);
     return NULL;
 }
 
-int *BuildIntVector(int Nrows){
-
+int *IntVector_create(int Nrows){
     int *A = (int*) calloc(Nrows, sizeof(int));
-
     return A;
 }
 
-int *DestroyIntVector(int *v){
+int *IntVector_free(int *v){
     free(v);
     return NULL;
 }
 
 
 /* row major storage for a 2D matrix array */
-int **BuildIntMatrix(int Nrows, int Ncols){
+int **IntMatrix_create(int Nrows, int Ncols){
     int n;
     int **A = (int**) calloc(Nrows, sizeof(int*));
 
@@ -43,7 +39,7 @@ int **BuildIntMatrix(int Nrows, int Ncols){
     return A;
 }
 
-int **DestroyIntMatrix(int **A){
+int **IntMatrix_free(int **A){
     free(A[0]);
     free(A);
 
@@ -51,7 +47,7 @@ int **DestroyIntMatrix(int **A){
 }
 
 
-double **BuildMatrix(int Nrows, int Ncols){
+double **Matrix_create(int Nrows, int Ncols){
     int n;
     double **A = (double**) calloc(Nrows, sizeof(double*));
 
@@ -64,7 +60,7 @@ double **BuildMatrix(int Nrows, int Ncols){
     return A;
 }
 
-double **DestroyMatrix(double **A){
+double **Matrix_free(double **A){
     free(A[0]);
     free(A);
 

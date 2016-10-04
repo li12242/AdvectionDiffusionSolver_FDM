@@ -5,43 +5,20 @@
 #ifndef PROGRAM_UTILS_H
 #define PROGRAM_UTILS_H
 
-double *BuildVector(int Nrows);
-
-double *DestroyVector(double *v);
-
-int *BuildIntVector(int Nrows);
-
-int *DestroyIntVector(int *v);
-
-int **BuildIntMatrix(int Nrows, int Ncols);
-
-int **DestroyIntMatrix(int **A);
-
-double **BuildMatrix(int Nrows, int Ncols);
-
-double **DestroyMatrix(double **A);
-
-void PrintMatrix(char *message, double **A, int Nrows, int Ncols);
-
-void SaveMatrix(char *filename, double **A, int Nrows, int Ncols);
-
-typedef struct{
-    int nx;     // num of points along x axis
-    int ny;     // num of points along y axis
-    double dx;  // distance between x points
-    double dy;  // distance between y points
-    double *x;  // x coordinate
-    double *y;  // y coordinate
-} structMesh;
-
-typedef struct{
-    double u;
-    double v;
-    double Dx;
-    double Dy;
-} physics;
-
-#define signf(a)  ( (a>0)?1:-1 )
+#define signf(a)   ( (a>0)?1:-1 )
 #define minf(a, b)  ( (a>b)?b:a )
+#define maxf(a, b)  ( (a>b)?a:b )
+
+double *Vector_create   (int Nrows);
+double *Vector_free (double *v);
+int    *IntVector_create(int Nrows);
+int    *IntVector_free (int *v);
+int    **IntMatrix_create  (int Nrows, int Ncols);
+int    **IntMatrix_free(int **A);
+double **Matrix_create     (int Nrows, int Ncols);
+double **Matrix_free   (double **A);
+
+void   PrintMatrix(char *message, double **A, int Nrows, int Ncols);
+void   SaveMatrix (char *filename, double **A, int Nrows, int Ncols);
 
 #endif //PROGRAM_UTILS_H
