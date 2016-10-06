@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "utils.h"
-#include "mkl.h"
+#include "../Utilities/utils.h"
+// #inclu de "mkl.h"
 
 typedef struct{
     int ndim2;  // num of points along x axis
