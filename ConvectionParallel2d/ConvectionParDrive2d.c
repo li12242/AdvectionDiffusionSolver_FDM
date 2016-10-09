@@ -7,7 +7,7 @@
 //
 
 #include "ConvectionParallel2d.h"
-#define np 201
+#define np 401
 
 int main(int argc, char **argv){
     

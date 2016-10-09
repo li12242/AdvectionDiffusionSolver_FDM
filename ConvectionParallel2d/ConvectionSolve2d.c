@@ -23,6 +23,9 @@ int ConvectionSolve2d(structMesh *mesh, physics *phy, double** c, double finalTi
     
     // calculate time interval - dt
     dt = getTimeInterval(mesh, phy, CFL);
+
+    double start, stop;
+    start = MPI_Wtime();
     
     while (time < finalTime) {
         
@@ -36,6 +39,9 @@ int ConvectionSolve2d(structMesh *mesh, physics *phy, double** c, double finalTi
         
         TimeEvolution(mesh, phy, c, time, dt, rhs);
     }
+
+    stop = MPI_Wtime();
+    printf("Time Usaged: %f\n", (stop-start)*1000.0 );
     
     Matrix_free(rhs);
     return 0;

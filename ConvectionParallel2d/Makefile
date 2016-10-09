@@ -15,6 +15,6 @@ run:
 	mpirun -n ${N} -host localhost ./ConvectionParallel2d
 
 clean:
-	rm *.txt
 	rm ConvectionParallel2d
+	rm *.txt
 	
