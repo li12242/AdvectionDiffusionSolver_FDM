@@ -5,7 +5,6 @@ extern "C"
 #include "cuda.h"
 
 static float *d_Q;
-static float *d_temp;
 static float *d_rhs;
 static float *d_bcFlag;
 
@@ -40,7 +39,6 @@ void ConvectionGPUSolve2d(structMesh *mesh, physics *phys,
     // allocate and copy GPU global memory
     int sz = Ntotal*sizeof(float);
     cudaMalloc ((void**) &d_Q, sz);
-    cudaMalloc ((void**) &d_temp, sz);
     cudaMalloc ((void**) &d_rhs, sz);
     cudaMalloc ((void**) &d_bcFlag, sz);
 
@@ -83,9 +81,10 @@ void ConvectionGPUSolve2d(structMesh *mesh, physics *phys,
         AdvectionGPU2d<<<BolcksPerGrid, ThreadsPerBlock>>>(Ntotal, d_Q, d_rhs, d_bcFlag);
         DiffusionGPU2d<<<BolcksPerGrid, ThreadsPerBlock>>>(Ntotal, d_Q, d_rhs, d_bcFlag);
         TiemAdvectionGPU2d<<<BolcksPerGrid, ThreadsPerBlock>>>(Ntotal, d_Q, d_rhs, dt);
-        SlopeLimiter<<<BolcksPerGrid, ThreadsPerBlock>>>(Ntotal, d_Q, d_temp, d_bcFlag);
+        // use d_rhs as a temp variable
+        SlopeLimiter<<<BolcksPerGrid, ThreadsPerBlock>>>(Ntotal, d_Q, d_rhs, d_bcFlag);
 
-        cudaMemcpy(d_Q, d_temp, Ntotal*sizeof(float), cudaMemcpyDeviceToDevice);
+        cudaMemcpy(d_Q, d_rhs, Ntotal*sizeof(float), cudaMemcpyDeviceToDevice);
 
 #if 0 //write the variable to file to debug
 
@@ -108,7 +107,6 @@ void ConvectionGPUSolve2d(structMesh *mesh, physics *phys,
     cudaMemcpy(c[0], d_Q, Ntotal*sizeof(float), cudaMemcpyDeviceToHost);
 
     cudaFree(d_Q);
-    cudaFree(d_temp);
     cudaFree(d_rhs);
     cudaFree(d_bcFlag);
 
